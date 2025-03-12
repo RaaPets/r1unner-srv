@@ -1,8 +1,27 @@
+BIND = '127.0.0.2'
+PORT = 8188
+
 help:
 	@cat Makefile
 
 run:
-	@cargo run -r
+	@cargo run -r -- -b $(BIND) -p $(PORT)
+
+test:
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/tasks
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/task/1
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/task/3
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/task/3 -X DELETE
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/ -X POST -d 'newItem'
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/task/1 -X DELETE
+	@echo
+	curl -w '\nStatusCode: %{http_code}\n' http://$(BIND):$(PORT)/tasks
 
 # # # # # # # #
 pull:

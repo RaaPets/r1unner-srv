@@ -1,3 +1,4 @@
+mod error;
 mod app_state;
 mod config;
 mod liba;
@@ -5,7 +6,7 @@ mod web_app;
 
 use app_state::AppState;
 
-use actix_web::{web, HttpServer, App};
+use actix_web::{web, App, HttpServer};
 
 //  //  //  //  //  //  //  //
 #[actix_web::main]

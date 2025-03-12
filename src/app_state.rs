@@ -8,8 +8,8 @@ pub struct AppState {
 impl AppState {
     pub fn new() -> Self {
         let mut runner = crate::liba::Runner::new();
-        runner.insert_via_id_info("one-1");
-        runner.insert_via_id_info("two-2");
+        runner.insert("one-1");
+        runner.insert("two-2");
         println!("\n[+]AppState\n");
         Self {
             runner: RwLock::new(runner),
