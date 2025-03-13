@@ -4,13 +4,15 @@ use std::fmt;
 #[derive(Debug, PartialEq, Eq)]
 pub enum RunnerError {
     WrongId,
+    InitTask(String),
 }
 
 impl std::error::Error for RunnerError {}
 impl fmt::Display for RunnerError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match *self {
+        match self {
             Self::WrongId => f.write_str("wrong Id"),
+            Self::InitTask(s) => f.write_str(&s),
         }
     }
 }
@@ -24,8 +26,9 @@ impl actix_web::error::ResponseError for RunnerError {
             .body(self.to_string())
     }
     fn status_code(&self) -> StatusCode {
-        match *self {
+        match self {
             Self::WrongId => StatusCode::BAD_REQUEST,
+            Self::InitTask(_) => StatusCode::NOT_ACCEPTABLE,
         }
     }
 }

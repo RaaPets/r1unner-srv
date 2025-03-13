@@ -16,7 +16,7 @@ struct ItemID {
 async fn get_list(state: web::Data<AppState>, query: web::Query<ItemID>) -> impl Responder {
     println!("get list {:?}", query.id);
     let runner = state.runner.read().unwrap();
-    runner.get_list()
+    runner.list()
 }
 
 #[get("/task/{id}")]
@@ -31,11 +31,14 @@ async fn get_item(
 }
 
 #[post("/")]
-async fn insert_item(state: web::Data<AppState>, info: String) -> (impl Responder, StatusCode) {
+async fn insert_item(
+    state: web::Data<AppState>, 
+    info: String,
+) -> Result<(impl Responder, StatusCode), RunnerError> {
     println!("insert item\n'{}'", info);
     let mut runner = state.runner.write().unwrap();
-    let new_id = runner.insert(&info);
-    (format!("{}", new_id), StatusCode::CREATED)
+    let new_id = runner.insert(&info)?;
+    Ok((format!("{}", new_id), StatusCode::CREATED))
 }
 
 #[delete("/task/{id}")]

@@ -4,6 +4,14 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+task = { path = "crates/task" }
 clap = { version = "4.5.31", features = ["derive"] }
 actix-web = "4.9.0"
 serde = { version = "1.0.219", features = ["derive"] }
+eyre = "0.6.12"
+
+[workspace]
+resolver = "2"
+member = [
+	"crates/task",
+]
